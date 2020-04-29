@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification
+spec:
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      labels:
+        app: notification
+    spec:
+      containers:
+      - name: notification
+        image: pangliter/notification-java-jib
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification
+  labels:
+    app: notification
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8083
+  selector:
+    app: notification
+  type: NodePort
