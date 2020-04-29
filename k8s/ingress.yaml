@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /product
+        backend:
+          serviceName: monolith
+          servicePort: 8080
+      - path: /customer
+        backend:
+          serviceName: monolith
+          servicePort: 8080
+      - path: /order
+        backend:
+          serviceName: microservices
+          servicePort: 8080
+#apiVersion: networking.k8s.io/v1beta1
+#kind: Ingress
+#metadata:
+#  name: ingress
+#  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /$2
+#spec:
+#  rules:
+#  - host: www.mastercloudapps.es
+#    http:
+#      paths:
+#      - path: /server(/|$)(.*)
+#        backend:
+#          serviceName: server
+#          servicePort: 8080
+
+
+
+#  - path: /monolith
+#      backend:
+#        serviceName: monolith
+#        servicePort: 8080
+#      - path: /orderservice
+#        backend:
+#          serviceName: microservices
+#          servicePort: 8080

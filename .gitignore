@@ -31,3 +31,5 @@ build/
 .vscode/
 
 *.pdf
+
+.DS_Store
