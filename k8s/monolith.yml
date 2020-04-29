@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  labels:
+    stack: p3
+spec:
+  # strategy:
+  #   type: Recreate
+  selector:
+    matchLabels:
+      app: worker
+  # replicas: 1 # tells deployment to run 1 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: worker
+        stack: p3
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+      - name: worker
+        image: mastercloudapps/pa-worker:1.0
+        env:
+        - name: SPRING_MYSQLDB_HOST
+          value: mysqldb
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysqldb:3306/test
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: password
+        - name: GRPC_CLIENT_UPPERCASESERVER_ADDRESS
+          value: static://externalservice:9090
+        - name: SPRING_RABBITMQ_HOST
+          value: rabbitmq
+        - name: SPRING_RABBITMQ_PORT
+          value: "5672"
+        - name: SPRING_RABBITMQ_USERNAME
+          value: rabbitmq
+        - name: SPRING_RABBITMQ_PASSWORD
+          value: rabbitmq
